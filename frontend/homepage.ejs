@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Homepage</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">Blog Articles</h1>
+        <h5 class="mb-4">Welcome  </h5>
+        <div class="mb-4">
+            <a href="/article/new" class="btn btn-primary">
+            Create new article</a>
+            <a href="/profile" class="btn btn-primary">
+            Profile</a>
+        </div>
+        <% articles.forEach(article=>{ %>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4 class="card-title"><%= article.title %></h4>
+                    <div class="card-subtitle text-muted mb-2">
+                        <%= article.email %>
+                    </div>
+                    <div class="card-text mb-2">
+                        <%= article.description %>
+                    </div>
+                    <a href="article/<%= article.id %>"
+                    class="btn btn-secondary">Read more</a>
+                    <a href="/comments" class="btn btn-secondary">
+                    Comments</a>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+    <a href="/login/logout" class="btn btn-secondary">Logout</a>
+</body>
+</html>
