@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Homepage</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">New Article</h1>
+        
+        <form action="/article/new" method="POST">
+        <div class="form-group">
+            <label for="Title">Title</label>
+            <input required type="text" name="title" id="title" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="Description">Description</label>
+            <textarea name="description" id="description" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="Content">Content</label>
+            <textarea required name="body" id="body" class="form-control"></textarea>
+        </div>
+        <a href="/homepage" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</body>
+</html>
