@@ -33,4 +33,10 @@ router.post('/new', async (req,res)=>{
     }
     
 });
+
+//adding article route
+router.get('/edit/:id', async (req, res) => {
+    const article = await Article.findById(req.params.id)
+    res.render('articles/edit', { article: article })
+  })
 module.exports = router;
