@@ -18,7 +18,7 @@ mongoose.connect(databaseUri,{useNewUrlParser:true, useCreateIndex:true, useUnif
 app.set('view engine','ejs');
 app.use(express.urlencoded({ extended: false }));
 //Routes
-app.use('/',require('./routes/userRoutes/index'));
+app.use('/',require('./routes/userRoutes/firstPage'));
 app.use('/login',require('./routes/userRoutes/userLogin'));
 app.use('/register',require('./routes/userRoutes/userRegister'));
 app.use('/homepage',require('./routes/userRoutes/homepage'))
