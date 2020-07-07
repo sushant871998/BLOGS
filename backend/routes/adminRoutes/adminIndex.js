@@ -3,14 +3,18 @@ const router = express.Router();
 const User = require('./../../models/userModel');
 const Admin = require('./../../models/adminModel');
 const bcrypt = require('bcryptjs');
-
+const passport = require('passport');
 
 router.get('/',(req,res)=>{
     res.render('./../../frontend/admin/adminLogin.ejs');
 });
 
-router.post('/',(req,res)=>{
-
+router.post('/',(req,res,next)=>{
+    passport.authenticate('local',{
+        successRedirect: '/admin/home',
+        failureRedirect: '/admin',
+        //failureFlash: true
+    })(req, res, next);
 });
 
 router.get('/home', async(req,res)=>{
