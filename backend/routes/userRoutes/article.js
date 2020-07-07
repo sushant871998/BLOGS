@@ -20,6 +20,7 @@ router.post('/new', ensureAuthenticated, async (req,res)=>{
         title: req.body.title,
         description: req.body.description,
         body: req.body.body,
+        userId:req.user.id,
 
     });
     try{
