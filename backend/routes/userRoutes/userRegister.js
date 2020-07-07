@@ -13,7 +13,7 @@ router.post('/',(req,res)=>{
         .then(user=>{
             if(user){
                 //User exists
-                res.render('register.ejs');
+                res.render('./../../frontend/register.ejs');
             } else {
                 const newUser = new User({
                     userId:Date.now().toString(),
@@ -34,7 +34,7 @@ router.post('/',(req,res)=>{
                     newUser.save()
                         .then(user=>{
                             //req.flash('Success_msg' ,'You are now registered and can log in');
-                            res.redirect('/login');
+                            res.redirect('./../../frontend/login.ejs');
                         })
                         .catch(err=>{
                             console.log('Error while saving '+err);
