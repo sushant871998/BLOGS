@@ -5,7 +5,6 @@ const adminSchema = new mongoose.Schema({
         type:Number,
         required: true,
         unique:true,
-
     },
     name:{
         type:String,

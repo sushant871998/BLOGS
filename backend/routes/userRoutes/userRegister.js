@@ -34,7 +34,7 @@ router.post('/',(req,res)=>{
                     newUser.save()
                         .then(user=>{
                             //req.flash('Success_msg' ,'You are now registered and can log in');
-                            res.redirect('./../../frontend/login.ejs');
+                            res.redirect('/login');
                         })
                         .catch(err=>{
                             console.log('Error while saving '+err);
