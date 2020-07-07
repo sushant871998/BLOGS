@@ -2,6 +2,11 @@ const express= require('express');
 const app=express();
 const PORT = process.env.PORT || 5000;
 const mongoose = require('mongoose');
+const passport = require('passport');
+const session = require('express-session');
+
+//Passport config
+require('./config/passport')(passport);
 
 //Database connection
 require('dotenv').config();
@@ -17,6 +22,14 @@ mongoose.connect(databaseUri,{useNewUrlParser:true, useCreateIndex:true, useUnif
 //Middleware
 app.set('view engine','ejs');
 app.use(express.urlencoded({ extended: false }));
+app.use(session({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+  }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 //Routes
 app.use('/',require('./routes/userRoutes/firstPage'));
 app.use('/login',require('./routes/userRoutes/userLogin'));
