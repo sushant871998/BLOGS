@@ -26,8 +26,8 @@
     <div class="container">
         <div class="mb-3">
         </div>
-        <h1 class="mb-4">Admin</h1>
-        <h3 class="mb-4">Users</h5>
+        <h1 class="mb-4">Admin Panel</h1>
+        <h3 class="mb-4">User List</h5>
 
         <% users.forEach(user=>{ %>
             <div class="card mt-4">
@@ -38,17 +38,23 @@
                             Id -<%= user.id %>
                         </p>
                     </div>
-                    <div class="card-text mb-1">
+                    <div class="card-text mb-2">
                         <p>
                             Email -<%= user.email %>
                         </p>
+                    </div>
+                    <div>
+                        <a href="/profile" class="btn btn-info">Profile</a>
+                        <form action="/delete/<%= user.id %>" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                          </form>
                     </div>
                 </div>
             </div>
         <% }) %>
         
         <div class="float-right">
-            <a href="/admin" class="btn btn-secondary">Logout</a>
+            <a href="/login/logout" class="btn btn-secondary">Logout</a>
         </div>
         
     </div>
