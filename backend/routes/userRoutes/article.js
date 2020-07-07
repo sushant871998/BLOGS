@@ -1,21 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const Article=require('./../../models/articleModel');
-
+const { ensureAuthenticated } = require('./../../config/auth');
 let userId=0;
 
-router.get('/new',(req,res)=>{
+router.get('/new',ensureAuthenticated, (req,res)=>{
     res.render('./../../frontend/newArticle.ejs');
-    //userId=req.user.id;
+    userId=req.user.id;
 });
 
-router.get('/:id', async (req,res)=>{
+router.get('/:id', ensureAuthenticated, async (req,res)=>{
     const article =await Article.findById(req.params.id);
     if(article == null) res.redirect('/homepage');
     res.render('./../../frontend/showArticle.ejs',{ article: article });
 });
 
-router.post('/new', async (req,res)=>{
+router.post('/new', ensureAuthenticated, async (req,res)=>{
     const article = new Article({
         title: req.body.title,
         description: req.body.description,
@@ -35,7 +35,7 @@ router.post('/new', async (req,res)=>{
 });
 
 //adding article route
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id', ensureAuthenticated, async (req, res) => {
     const article = await Article.findById(req.params.id)
     res.render('articles/edit', { article: article })
   })
