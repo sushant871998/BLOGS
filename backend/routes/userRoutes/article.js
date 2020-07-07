@@ -9,22 +9,22 @@ router.get('/new',ensureAuthenticated, (req,res)=>{
     userId=req.user.id;
 });
 
-router.get('/:id', ensureAuthenticated, async (req,res)=>{
-    const article =await Article.findById(req.params.id);
+router.get('/:slug', ensureAuthenticated, async (req,res)=>{
+    const article =await Article.findOne({slug:req.params.slug});
     if(article == null) res.redirect('/homepage');
     res.render('./../../frontend/showArticle.ejs',{ article: article });
 });
 
 router.post('/new', ensureAuthenticated, async (req,res)=>{
-    const article = new Article({
+    let article = new Article({
         title: req.body.title,
         description: req.body.description,
         body: req.body.body,
-        userId: userId
+
     });
     try{
         let art=await article.save();
-        res.redirect(`/article/${art.id}`)
+        res.redirect(`/article/${art.slug}`)
     }
     catch (e)
     {
