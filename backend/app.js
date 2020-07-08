@@ -44,4 +44,6 @@ app.use('/article',require('./routes/userRoutes/article'))
 app.use('/profile',require('./routes/userRoutes/profile'))
 app.use('/admin',require('./routes/adminRoutes/adminIndex'));
 app.use('/delete',require('./routes/adminRoutes/adminDelete'));
+
+
 app.listen(PORT,console.log(`Server started on port ${PORT}`));
