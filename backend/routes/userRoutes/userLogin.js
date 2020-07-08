@@ -11,10 +11,14 @@ router.get('/logout',(req,res)=>{
     res.redirect('/login');
 });
 
+router.get('/fail',(req, res)=>{
+    res.render('./../../frontend/fail/loginFail.ejs')
+});
+
 router.post('/',(req ,res, next)=>{
     passport.authenticate('local',{
         successRedirect: '/homepage',
-        failureRedirect: '/login',
+        failureRedirect: '/login/fail',
         //failureFlash: true
     })(req, res, next);
 });

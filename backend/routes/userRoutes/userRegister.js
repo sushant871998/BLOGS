@@ -7,13 +7,17 @@ router.get('/',(req,res)=>{
     res.render('./../../frontend/register.ejs');
 });
 
+router.get('/fail',(req, res)=>{
+    res.render('./../../frontend/fail/registerFail.ejs')
+});
+
 router.post('/',(req,res)=>{
     const{ name ,email, password}=req.body;
     User.findOne({email : email})
         .then(user=>{
             if(user){
                 //User exists
-                res.render('./../../frontend/register.ejs');
+                res.redirect('/register/fail')
             } else {
                 const newUser = new User({
                     userId:Date.now().toString(),
