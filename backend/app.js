@@ -5,6 +5,9 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
 
+//method-override for delete
+const methodoverride=require('method-override') 
+
 //Passport config
 require('./config/passport')(passport);
 
@@ -29,6 +32,8 @@ app.use(session({
   }));
 app.use(passport.initialize());
 app.use(passport.session());
+//for specifying that method-override has to work on a method
+app.use(methodoverride('_method'))
 
 //Routes
 app.use('/',require('./routes/userRoutes/firstPage'));
