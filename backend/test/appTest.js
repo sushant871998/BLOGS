@@ -198,3 +198,25 @@ describe('Admin Login POST route testing',()=>{
                         .catch(err=>done(err));
     });
 });
+
+// describe('Homepage testing',()=>{
+    
+//     let agent=chai.request.agent(server);
+//     agent.post('/login')
+//          .type('form')
+//          .send({
+//              email:'n@n',
+//              password:'1234'
+//          })
+//          .then(function (res){
+//              expect(res).to.have.cookie('sessionid');
+
+//              return agent.get('/homepage')
+//                 .then(function (res){
+//                     console.log(req)
+//                     expect(res).to.be.html;
+//                 })
+//          })
+    
+    
+// });
