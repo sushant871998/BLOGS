@@ -27,6 +27,9 @@ const articleSchema= new mongoose.Schema({
         type:String,
         required: true,
         unique: true
+    },
+    imageId:{
+        type: String
     }
 });
 
