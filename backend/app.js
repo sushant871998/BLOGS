@@ -14,7 +14,7 @@ require('./config/passport')(passport);
 //Database connection
 require('dotenv').config();
 const databaseUri=process.env.URI;
-mongoose.connect(databaseUri,{useNewUrlParser:true, useCreateIndex:true, useUnifiedTopology:true})
+mongoose.connect(databaseUri,{useNewUrlParser:true, useCreateIndex:true, useUnifiedTopology: true})
         .then(res=>{
             console.log('Database has been connected');
         })
