@@ -7,6 +7,10 @@ const path = require("path");
 const mongoose = require('mongoose');
 const GridFsStorage = require("multer-gridfs-storage");
 const { ensureAuthenticated } = require('./../../config/auth');
+//utilitymade for getting the article
+const findFile=require("./utilityForFile")
+//utility made for image download
+const imageUtility=require("./getImageUtility");
 let userId=0;
 
 router.get('/new',ensureAuthenticated, (req,res)=>{
@@ -53,38 +57,7 @@ router.get('/:slug', ensureAuthenticated, async (req,res)=>{
     const article =await Article.findOne({slug:req.params.slug});
     if(article == null) res.redirect('/homepage');
     //Gfs for image 
-    if(!gfs) {
-        console.log("some error occured, check connection to db");
-        res.send("some error occured, check connection to db");
-        process.exit(0);
-      }
-      gfs.find({ filename: article.imageId }).toArray((err, files) => {
-        // check if files
-        if (!files || files.length === 0) {
-         return res.render('./../../frontend/showArticle.ejs',{ 
-             article: article ,
-             files: false
-            });
-        } else {
-          const f = files
-            .map(file => {
-              if (
-                file.contentType === "image/png" ||
-                file.contentType === "image/jpeg"
-              ) {
-                file.isImage = true;
-              } else {
-                file.isImage = false;
-              }
-              return file;
-            })
-            return res.render('./../../frontend/showArticle.ejs',{ 
-                files: f,
-                article: article ,
-                
-            });
-        }
-      });
+    findFile(req,res,article);
 });
 
 router.post('/new', upload.single("file"), async (req,res)=>{
@@ -115,18 +88,8 @@ router.get('/edit/:id', ensureAuthenticated, async (req, res) => {
 
 router.get("/image/:filename", (req, res) => {
     // console.log('id', req.params.id)
-    const file = gfs
-      .find({
-        filename: req.params.filename
-      })
-      .toArray((err, files) => {
-        if (!files || files.length === 0) {
-          return res.status(404).json({
-            err: "no files exist"
-          });
-        }
-        gfs.openDownloadStreamByName(req.params.filename).pipe(res);
-      });
-});
+   imageUtility(req,res);
+})
+
 
 module.exports = router;
