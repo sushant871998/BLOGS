@@ -9,10 +9,18 @@ router.get('/',(req,res)=>{
     res.render('./../../frontend/admin/adminLogin.ejs');
 });
 
+router.get('/fail',(req,res)=>{
+    res.render('./../../frontend/fail/adminLoginFail.ejs')
+});
+
+router.get('/registerFail',(req,res)=>{
+    res.render('./../../frontend/fail/adminRegisterFail.ejs')
+})
+
 router.post('/',(req,res,next)=>{
     passport.authenticate('local',{
         successRedirect: '/admin/home',
-        failureRedirect: '/admin',
+        failureRedirect: '/admin/fail',
         //failureFlash: true
     })(req, res, next);
 });
@@ -39,7 +47,7 @@ router.post('/new',async(req,res)=>{
     .then(admin=>{
         if(admin){
             //Admin exists
-            res.render('./../../frontend/admin/adminHome.ejs');
+            res.redirect('/admin/registerFail');
         } else {
             const newAdmin = new Admin({
                 adminId:Date.now().toString(),
@@ -63,6 +71,7 @@ router.post('/new',async(req,res)=>{
                         res.redirect('/admin/success');
                     })
                     .catch(err=>{
+                        res.redirect('/admin/registerFail')
                         console.log('Error while saving '+err);
                     })
             }))
