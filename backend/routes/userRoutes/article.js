@@ -65,7 +65,9 @@ router.get('/comments/:id',ensureAuthenticated, async (req,res)=>{
     const article =await Article.findById(req.params.id);
     if(article == null) res.redirect('/homepage');
     const comment=await Comment.find({articleId:req.params.id})
-    if(comment==null) res.redirect('article/'+req.params.id);
+    if(comment==null)  res.render('./../../frontend/comments.ejs',{
+        comments:false
+    });
     res.render('./../../frontend/comments.ejs',{
         comments:comment
     });
