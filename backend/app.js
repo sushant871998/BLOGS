@@ -10,7 +10,6 @@ const methodoverride=require('method-override')
 
 //Passport config
 require('./config/passport')(passport);
-
 //Database connection
 require('dotenv').config();
 const databaseUri=process.env.URI;
@@ -44,6 +43,7 @@ app.use('/article',require('./routes/userRoutes/article'))
 app.use('/profile',require('./routes/userRoutes/profile'))
 app.use('/admin',require('./routes/adminRoutes/adminIndex'));
 app.use('/delete',require('./routes/adminRoutes/adminDelete'));
+app.use('/auth',require('./routes/userRoutes/google'));
 
 
 app.listen(PORT,console.log(`Server started on port ${PORT}`));
