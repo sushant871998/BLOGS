@@ -13,7 +13,8 @@ router.get('/', ensureAuthenticated ,async(req,res)=>{
     const articles=await Article.find().sort({ createdAt :'desc'});
     res.render('./../../frontend/homepage.ejs',{
         articles:articles,
-        name:req.user.name
+        name:req.user.name,
+        id:req.user.id
     });
 });
 module.exports = router;

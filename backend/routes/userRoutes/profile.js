@@ -7,6 +7,7 @@ const GridFsStorage = require("multer-gridfs-storage");
 //const { ensureAuthenticated } = require('./../../config/auth');
 const findFile=require("./utilityForFile")
 const imageUtility=require("./getImageUtility");
+const Comment=require('./../../models/commentsModel');
 //const imageroute=require("./article")
 require('dotenv').config();
 
@@ -103,7 +104,11 @@ router.get('/myArticles/image/:filename', (req, res) => {
    imageUtility(req,res);
 })
 
-router.get('/myComments', ensureAuthenticated, (req,res)=>{
-    res.render('./../../frontend/profile/myComments.ejs');
+router.get('/myComments/:id', ensureAuthenticated, async(req,res)=>{
+  const comment=await Comment.find({userId:req.params.id}).sort({ createdAt :'desc'})
+  if(comment==null)  res.redirect('/homepage');
+  res.render('./../../frontend/profile/myComments.ejs',{
+      comments:comment
+  });
 });
 module.exports = router;
