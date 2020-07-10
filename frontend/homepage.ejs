@@ -44,17 +44,12 @@
         <% articles.forEach(article=>{ %>
             <div class="card mt-4">
                 <div class="card-body">
-                    <h4 class="card-title"><%= article.title %></h4>
-                    <div class="card-subtitle text-muted mb-2">
-                        <%= article.email %>
-                    </div>
+                    <h4 class="card-title"><%= article.title %><span class="card-subtitle text-muted mb-2 small">-<%= article.createdAt.toLocaleDateString() %></span></h4>
                     <div class="card-text mb-2">
                         <%= article.description %>
                     </div>
                     <a href="article/<%= article.slug %>"
-                    class="btn btn-info">Read more</a>
-                    <a href="/comments" class="btn btn-info">
-                    Comments</a>
+                      class="btn btn-info">Read more</a>  
                 </div>
             </div>
         <% }) %>

@@ -39,9 +39,6 @@
         <div class="card-body">
           <form method="POST" onsubmit="return doComment(this);">
             <div class="form-group">
-              <input class="form-control"  name= "username"/>
-            </div>
-            <div class="form-group">
               <textarea class="form-control" rows="3" name="body"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -54,7 +51,7 @@
     $.ajax({
       url:"/do-comment",
       method:"POST",
-      data: {username :form.username.value, body:form.body.value, articleId:form.articleId.value},
+      data: { body:form.body.value, articleId:form.articleId.value},
       sucess: function(response){
         alert(response);
       }
@@ -67,6 +64,7 @@
         <div class="card mt-4">
             <div class="card-body">
                 <h4 class="card-title"><%= comment.username %></h4>
+
                 <div class="card-text mb-2">
                     <%= comment.body %>
                 </div>
