@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Google Registration</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/admin">Admin</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+
+    <div class="mt-5">
+        <div class="container">
+            <h4 class="mb-4">Create password</h4>
+            <form action="/auth/google/success" method="POST">
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input required type="password" name="password" id="password" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Register</button>
+            <a href="/" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+    
+</body>
+</html>
