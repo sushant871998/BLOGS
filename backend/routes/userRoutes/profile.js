@@ -7,6 +7,7 @@ const GridFsStorage = require("multer-gridfs-storage");
 const findFile=require("./utilityForFile")
 const imageUtility=require("./getImageUtility");
 const Comment=require('./../../models/commentsModel');
+const alert= require('alert-node');
 require('dotenv').config();
 
 const mongoURI=process.env.URI;
@@ -87,4 +88,11 @@ router.get('/myComments/:id', ensureAuthenticated, async(req,res)=>{
       id:req.user.id
   });
 });
+
+router.delete('/myComments/:id',ensureAuthenticated,async(req,res)=>{
+  const comment =await Comment.findById(req.params.id);
+  if(comment==null) res.redirect('/homepage')
+  await Comment.findByIdAndDelete(comment.id)
+  res.redirect('/homepage');
+})
 module.exports = router;

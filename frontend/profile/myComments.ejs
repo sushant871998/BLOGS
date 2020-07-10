@@ -18,7 +18,9 @@
                 <%= comment.body %>
             </div>
             <div class="text-right">
+              <form action="<%= comment._id %>?_method=DELETE" method="POST" class="d-inline">
               <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
             </div>
         </div>
     </div>
