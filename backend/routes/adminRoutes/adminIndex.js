@@ -18,7 +18,7 @@ router.get('/registerFail',(req,res)=>{
 })
 
 router.post('/',(req,res,next)=>{
-    passport.authenticate('local',{
+    passport.authenticate('local-2',{
         successRedirect: '/admin/home',
         failureRedirect: '/admin/fail',
         //failureFlash: true

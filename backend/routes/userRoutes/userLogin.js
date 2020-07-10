@@ -16,7 +16,7 @@ router.get('/fail',(req, res)=>{
 });
 
 router.post('/',(req ,res, next)=>{
-    passport.authenticate('local',{
+    passport.authenticate('local-1',{
         successRedirect: '/homepage',
         failureRedirect: '/login/fail',
         //failureFlash: true

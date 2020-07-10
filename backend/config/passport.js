@@ -2,9 +2,11 @@ const LocalStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const User = require('./../models/userModel');
+const Admin = require('./../models/adminModel');
+const GoogleStrategy= require('passport-google-oauth20');
 
 module.exports=function (passport){
-    passport.use(
+    passport.use('local-1',
         new LocalStrategy({ usernameField: 'email' }, (email, password, done)=>{
             //Match User
             User.findOne({ email:email })
@@ -28,6 +30,48 @@ module.exports=function (passport){
                 })
         })
     );
+    //Admin auth
+    passport.use('local-2',
+        new LocalStrategy({ usernameField: 'email' }, (email, password, done)=>{
+            //Match Admin
+            Admin.findOne({ email:email })
+                .then(user=>{
+                    if(!user){
+                        return done(null, false, {message: 'That email is not registered'});
+                    }
+
+                    bcrypt.compare(password, user.password, (err,isMatch)=>{
+                        if(err) throw err;
+
+                        if(isMatch){
+                            return done(null,user);
+                        } else {
+                            return done(null ,false, { message: 'Password incorrect' });
+                        }
+                    })
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+        })
+    );
+    //Google auth
+    passport.use(
+        new GoogleStrategy({
+            //options
+            callbackURL:'/auth/google/redirect',
+            clientID: "1035247651503-u961cn7js471r8sjvoobbtph0729m7vv.apps.googleusercontent.com",
+            clientSecret:"-J-D0WCyO_zo1RxGxYwyjNpS"
+        },(accessToken, refreshToken, profile, done)=>{
+            console.log(profile._json.email);
+            return done(null, profile)
+                        
+        })
+    )
+
+    
+
+
     passport.serializeUser(function(user,done) {
         done(null, user.id);
     });
