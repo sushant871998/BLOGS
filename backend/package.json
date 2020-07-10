@@ -13,6 +13,7 @@
     "bcryptjs": "^2.4.3",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
+    "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
@@ -25,6 +26,7 @@
     "multer-gridfs-storage": "^4.2.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
+    "path": "^0.12.7",
     "slugify": "^1.4.4",
     "supertest": "^4.0.2"
   },
