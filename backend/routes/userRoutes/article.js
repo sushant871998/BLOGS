@@ -61,10 +61,23 @@ router.get('/:slug', ensureAuthenticated, async (req,res)=>{
     findFile(req,res,article);
 });
 
-router.post('/:slug', ensureAuthenticated, async (req,res)=>{
+router.get('/comments/:id',ensureAuthenticated, async (req,res)=>{
+    const article =await Article.findById(req.params.id);
+    if(article == null) res.redirect('/homepage');
+    const comment=await Comment.find({articleId:req.params.id})
+    if(comment==null) res.redirect('article/'+req.params.id);
+    res.render('./../../frontend/comments.ejs',{
+        comments:comment
+    });
+})
+
+
+
+
+router.post('/comments/:id', ensureAuthenticated, async (req,res)=>{
     
     //Gfs for image
-    const article =await Article.findOne({slug:req.params.slug});
+    const article =await Article.findById(req.params.id);
     if(article == null) res.redirect('/homepage');
     let comment = new Comment({
         articleId: article._id,
@@ -75,12 +88,12 @@ router.post('/:slug', ensureAuthenticated, async (req,res)=>{
 
     try{
         let cmt=await comment.save();
-        res.redirect('/homepage')
+        res.redirect('/article/comments/'+req.params.id);
     }
     catch (e)
     {
         console.log("Error while saving "+e);
-        res.redirect('/login');
+        res.redirect('/homepage');
     }
 
 
