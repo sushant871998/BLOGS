@@ -28,7 +28,8 @@ module.exports=function findFile(req,res,article)
         if (!files || files.length === 0) {
          return res.render('./../../frontend/showArticle.ejs',{ 
              article: article ,
-             files: false
+             files: false,
+             id:req.user.id
             });
         } else {   
     const f = files
@@ -46,7 +47,7 @@ module.exports=function findFile(req,res,article)
             return res.render('./../../frontend/showArticle.ejs',{ 
                 files: f,
                 article: article ,
-                
+                id:req.user.id
             });
         }
     });
