@@ -7,7 +7,7 @@ const CommentSchema = new Schema({
     body: { type: String, required: true, trim: true },
     articleId:{type: Schema.Types.ObjectId, ref: 'article'},
     username:{type: String, required: true, trim: true},
-        
+    createdAt:{type:Date,default:Date.now}    
 },{
     timestamps : true,
 });
