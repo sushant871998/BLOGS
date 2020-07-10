@@ -15,7 +15,7 @@ const imageUtility=require("./getImageUtility");
 let userId=0;
 
 router.get('/new',ensureAuthenticated, (req,res)=>{
-    res.render('./../../frontend/newArticle.ejs');
+    res.render('./../../frontend/newArticle.ejs',{id:req.user.id});
     userId=req.user.id;
 });
 require('dotenv').config();
@@ -66,10 +66,12 @@ router.get('/comments/:id',ensureAuthenticated, async (req,res)=>{
     if(article == null) res.redirect('/homepage');
     const comment=await Comment.find({articleId:req.params.id}).sort({ createdAt :'desc'})
     if(comment==null)  res.render('./../../frontend/comments.ejs',{
-        comments:false
+        comments:false,
+        id:req.user.id
     });
     res.render('./../../frontend/comments.ejs',{
-        comments:comment
+        comments:comment,
+        id:req.user.id
     });
 })
 
@@ -117,7 +119,7 @@ router.post('/new', upload.single("file"), async (req,res)=>{
     catch (e)
     {
         console.log("Error while saving "+e);
-        res.render('./../../frontend/newArticle.ejs');
+        res.render('./../../frontend/newArticle.ejs',{id:req.user.id});
     }
     
 });

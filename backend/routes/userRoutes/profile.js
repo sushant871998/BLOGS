@@ -4,10 +4,9 @@ const { ensureAuthenticated } = require('./../../config/auth');
 const Article=require('./../../models/articleModel');
 const mongoose = require('mongoose');
 const GridFsStorage = require("multer-gridfs-storage");
-//const { ensureAuthenticated } = require('./../../config/auth');
 const findFile=require("./utilityForFile")
 const imageUtility=require("./getImageUtility");
-//const imageroute=require("./article")
+const Comment=require('./../../models/commentsModel');
 require('dotenv').config();
 
 const mongoURI=process.env.URI;
@@ -20,34 +19,13 @@ conn.once("open", () => {
     });
 });
 
-// const storage = new GridFsStorage({
-//     url: mongoURI,
-//     file: (req, file) => {
-//       return new Promise((resolve, reject) => {
-//         crypto.randomBytes(16, (err, buf) => {
-//           if (err) {
-//             return reject(err);
-//           }
-//           const filename = buf.toString("hex") + path.extname(file.originalname);
-//           const fileInfo = {
-//             filename: filename,
-//             bucketName: "uploads"
-//           };
-//           resolve(fileInfo);
-//         });
-//       });
-//     }
-// });
-
-
-
-
 
 router.get('/myArticles',ensureAuthenticated,   async(req,res)=>{
     const articles=await Article.find({userId:req.user.id}).sort({ createdAt :'desc'});
     res.render('./../../frontend/profile/myArticles.ejs',{
     articles:articles,
     name:req.user.name,
+    id:req.user.id
     });
 });
 
@@ -64,8 +42,6 @@ router.put('/myArticles/edit/:slug', async (req, res, next) => {
     const article =await Article.findOne({slug:req.params.slug});
     if(article == null) res.redirect('/myArticles');
     findFile(req,res,article);
-    
-    //res.render('./../../frontend/showArticle.ejs',{ article: article });
 });
 
 
@@ -91,9 +67,9 @@ function saveArticleAndRedirect(path) {
       article.body = req.body.body
       try {
         article = await article.save()
-        res.redirect(`./../../frontend/showArticle.ejs`,{ article: article })
+        res.redirect(`./../../frontend/showArticle.ejs`,{ article: article,id:req.user.id })
       } catch (e) {
-        res.render(`./../../frontend/showArticle.ejs`,{ article: article })
+        res.render(`./../../frontend/showArticle.ejs`,{ article: article,id:req.user.id })
       }
     }
   }
@@ -103,7 +79,12 @@ router.get('/myArticles/image/:filename', (req, res) => {
    imageUtility(req,res);
 })
 
-router.get('/myComments', ensureAuthenticated, (req,res)=>{
-    res.render('./../../frontend/profile/myComments.ejs');
+router.get('/myComments/:id', ensureAuthenticated, async(req,res)=>{
+  const comment=await Comment.find({userId:req.params.id}).sort({ createdAt :'desc'})
+  if(comment==null)  res.redirect('/homepage');
+  res.render('./../../frontend/profile/myComments.ejs',{
+      comments:comment,
+      id:req.user.id
+  });
 });
 module.exports = router;
