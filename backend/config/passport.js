@@ -63,15 +63,27 @@ module.exports=function (passport){
             clientID: "1035247651503-u961cn7js471r8sjvoobbtph0729m7vv.apps.googleusercontent.com",
             clientSecret:"-J-D0WCyO_zo1RxGxYwyjNpS"
         },(accessToken, refreshToken, profile, done)=>{
-            console.log(profile._json.email);
-            return done(null, profile)
-                        
+            
+            User.findOne({ email: profile._json.email })
+                .then(user=>{
+                    if(user){
+                        done(null, user);
+                    } else {
+                        new User({
+                            userId: profile.id,
+                            name: profile.name.givenName,
+                            email: profile._json.email,
+                            password: profile.name.givenName,
+                        }).save()
+                          .then(newUser=>{
+                              done(null, newUser);
+                          })
+                    }
+                })       
         })
     )
 
     
-
-
     passport.serializeUser(function(user,done) {
         done(null, user.id);
     });

@@ -14,16 +14,15 @@ router.get('/google/fail',(req,res)=>{
 });
 
 router.get('/google/success',(req,res)=>{
-    console.log(req)
-    console.log(req.profile)
+    console.log(req.user)
     res.render('./../../frontend/fail/googleSuccess.ejs')
 });
 
 router.get('/google/redirect',passport.authenticate('google',
 {
-    session:false,
+    
     failureRedirect:'/auth/google/fail',
-    successRedirect:'/auth/google/success'
+    successRedirect:'/homepage'
 }),(req,res)=>{
     res.redirect('/')
 });
