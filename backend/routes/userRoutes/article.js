@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Article=require('./../../models/articleModel');
+const Comment=require('./../../models/commentsModel');
 const multer = require("multer");
 const crypto = require("crypto");
 const path = require("path");
@@ -59,6 +60,32 @@ router.get('/:slug', ensureAuthenticated, async (req,res)=>{
     //Gfs for image 
     findFile(req,res,article);
 });
+
+router.post('/:slug', ensureAuthenticated, async (req,res)=>{
+    
+    //Gfs for image
+    const article =await Article.findOne({slug:req.params.slug});
+    if(article == null) res.redirect('/homepage');
+    let comment = new Comment({
+        articleId: article._id,
+        body: req.body.body,
+        userId:req.user.id,
+        username:req.user.name,
+    });
+
+    try{
+        let cmt=await comment.save();
+        res.redirect('/homepage')
+    }
+    catch (e)
+    {
+        console.log("Error while saving "+e);
+        res.redirect('/login');
+    }
+
+
+});
+
 
 router.post('/new', upload.single("file"), async (req,res)=>{
     let article = new Article({
