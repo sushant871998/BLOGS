@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const User = require('./../models/userModel');
 const Admin = require('./../models/adminModel');
 const GoogleStrategy= require('passport-google-oauth20');
+const FacebookStrategy= require('passport-facebook');
 
 require('dotenv').config();
 
@@ -64,7 +65,7 @@ module.exports=function (passport){
             callbackURL:'/auth/google/redirect',
             clientID: process.env.clientID,
             clientSecret:process.env.clientSecret
-            
+
         },(accessToken, refreshToken, profile, done)=>{
             
             User.findOne({ email: profile._json.email })
@@ -83,6 +84,21 @@ module.exports=function (passport){
                           })
                     }
                 })       
+        })
+    )
+    //Facebook auth
+    passport.use(
+        new FacebookStrategy({
+            //Facebook options
+            callbackURL:'/auth/facebook/redirect',
+            clientID:process.env.appID,
+            clientSecret: process.env.appSecret,
+            profileFields:["email", "name"]
+
+        },(accessToken, refreshToken, profile, done)=>{
+            console.log(profile)
+            console.log()
+            
         })
     )
 
