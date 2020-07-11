@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('./../../models/userModel');
 const Admin = require('./../../models/adminModel');
+const { ensureAuthenticated } = require('./../../config/auth');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 
@@ -25,7 +26,7 @@ router.post('/',(req,res,next)=>{
     })(req, res, next);
 });
 
-router.get('/home', async(req,res)=>{
+router.get('/home',ensureAuthenticated, async(req,res)=>{
 
     const users= await User.find();
     res.render('./../../frontend/admin/adminHome.ejs',{

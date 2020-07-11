@@ -9,21 +9,41 @@ router.get('/google',passport.authenticate('google',{
 
 });
 
+
+router.get('/facebook',passport.authenticate('facebook'));
+
+router.get('/github',passport.authenticate('github'));
+
+
+router.get('/facebook/redirect',
+    passport.authenticate('facebook',{
+        successRedirect:"/homepage",
+        failureRedirect:'/auth/google/fail'
+    })
+);
+
+router.get('/github/redirect',
+    passport.authenticate('github',{
+        successRedirect:'/homepage',
+        failureRedirect:'/auth/google/fail'
+    })
+);
+ 
+
 router.get('/google/fail',(req,res)=>{
     res.render('./../../frontend/fail/googleFail.ejs')
 });
 
 router.get('/google/success',(req,res)=>{
-    console.log(req)
-    console.log(req.profile)
+    console.log(req.user)
     res.render('./../../frontend/fail/googleSuccess.ejs')
 });
 
 router.get('/google/redirect',passport.authenticate('google',
 {
-    session:false,
+    
     failureRedirect:'/auth/google/fail',
-    successRedirect:'/auth/google/success'
+    successRedirect:'/homepage'
 }),(req,res)=>{
     res.redirect('/')
 });

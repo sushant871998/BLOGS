@@ -4,6 +4,9 @@ const bcrypt = require('bcryptjs');
 const User = require('./../models/userModel');
 const Admin = require('./../models/adminModel');
 const GoogleStrategy= require('passport-google-oauth20');
+const FacebookStrategy= require('passport-facebook');
+const GitHubStrategy= require('passport-github');
+require('dotenv').config();
 
 module.exports=function (passport){
     passport.use('local-1',
@@ -60,25 +63,102 @@ module.exports=function (passport){
         new GoogleStrategy({
             //options
             callbackURL:'/auth/google/redirect',
-            clientID: "1035247651503-u961cn7js471r8sjvoobbtph0729m7vv.apps.googleusercontent.com",
-            clientSecret:"-J-D0WCyO_zo1RxGxYwyjNpS"
+            clientID: process.env.clientID,
+            clientSecret:process.env.clientSecret
+
         },(accessToken, refreshToken, profile, done)=>{
-            console.log(profile._json.email);
-            return done(null, profile)
-                        
+            
+            User.findOne({ email: profile._json.email })
+                .then(user=>{
+                    if(user){
+                        done(null, user);
+                    } else {
+                        new User({
+                            userId: profile.id,
+                            name: profile.name.givenName,
+                            email: profile._json.email,
+                            password: profile.name.givenName,
+                        }).save()
+                          .then(newUser=>{
+                              done(null, newUser);
+                          })
+                    }
+                })       
         })
+    )
+    //Facebook auth
+    passport.use(
+        new FacebookStrategy({
+            //Facebook options
+            callbackURL:'/auth/facebook/redirect',
+            clientID:process.env.appID,
+            clientSecret: process.env.appSecret,
+            profileFields:["email", "name"]
+
+        },(accessToken, refreshToken, profile, done)=>{
+            User.findOne({ email:profile._json.email})
+                .then(user=>{
+                    if(user){
+                        done(null,user);
+                    } else {
+                        new User({
+                            userId: profile._json.id,
+                            name: profile._json.first_name,
+                            email: profile._json.email,
+                            password: profile._json.first_name
+                        }).save()
+                          .then(newUser=>{
+                               done(null,newUser)
+                          })
+                    }
+                })
+        })
+    )
+    
+    //Github auth
+    passport.use(new GitHubStrategy({
+        clientID: process.env.gitClientId,
+        clientSecret: process.env.gitClientSecret,
+        callbackURL: '/auth/github/redirect'
+    },(accessToken, refreshToken, profile, done)=>{
+
+        User.findOne({ email: profile._json.email })
+            .then(user=>{
+                if(user){
+                    done(null, user)
+                } else {
+                    new User({
+                        userId: profile._json.id,
+                        name: profile._json.name,
+                        email: profile._json.email,
+                        password: profile._json.name
+                    }).save()
+                      .then(newUser=>{
+                          done(null, newUser)
+                      })
+                }
+            })
+    })
     )
 
     
-
-
     passport.serializeUser(function(user,done) {
         done(null, user.id);
     });
 
     passport.deserializeUser(function(id, done){
         User.findById(id,(err,user)=>{
-            done(err, user);
+            if(user){
+                done(err, user);
+            }
+            else{
+                Admin.findById(id,(err,user)=>{
+                    done(err,user)
+                })
+            }
         });
+        // User.findById(id,(err,user)=>{
+        //     done(err, user);
+        // });
     });    
 };
