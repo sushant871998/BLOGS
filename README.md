@@ -30,13 +30,29 @@ The different packages used are
 - **slugify** Used for better url id creation
 - **supertest** Library for testing HTTP servers
 - **nodemon** *Dev dependency* Reloads the app whenever a change is done
+- **passport-facebook** Provided auth by Google
+- **passport-github** Provided auth by Github
+
+
 ### Models
 Different models have been used to save the data in the database
 - adminModel
 - articleModel
 - commentsModel
 - userModel
+
+### Views
+- **Login/Register Screen** First page for user to login or register
+- **Homepage** Main Homepage showing all the articles on the website
+- **Article-Read More** Page showing the full article
+- **Article-Comments** Page to see Comments on the articles
+- **New Article** Page to add new Articles
+- **My Articles** Page to see all articles written by a user
+- **My Comments** Page to see all comments made by a user
+
+
 ### Contributers
-- Nishith
-- Sushant 
+- Nishith(https://github.com/NISHITZA/)
+- Sushant (https://github.com/sushant871998/)
+
 
