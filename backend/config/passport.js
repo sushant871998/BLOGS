@@ -121,7 +121,23 @@ module.exports=function (passport){
         clientSecret: process.env.gitClientSecret,
         callbackURL: '/auth/github/redirect'
     },(accessToken, refreshToken, profile, done)=>{
-        console.log(profile)
+
+        User.findOne({ email: profile._json.email })
+            .then(user=>{
+                if(user){
+                    done(null, user)
+                } else {
+                    new User({
+                        userId: profile._json.id,
+                        name: profile._json.name,
+                        email: profile._json.email,
+                        password: profile._json.name
+                    }).save()
+                      .then(newUser=>{
+                          done(null, newUser)
+                      })
+                }
+            })
     })
     )
 
