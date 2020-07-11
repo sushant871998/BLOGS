@@ -153,7 +153,9 @@ router.get('/myComments/:id', ensureAuthenticated, async(req,res)=>{
 router.delete('/myComments/:id',ensureAuthenticated,async(req,res)=>{
   const comment =await Comment.findById(req.params.id);
   if(comment==null) res.redirect('/homepage')
+  //var articleId=Comment.findById(req.params.id,{userId:true,_id:false})
   await Comment.findByIdAndDelete(comment.id)
-  res.redirect('/homepage');
+  //res.redirect('/homepage');
+  res.redirect('/profile/myComments/'+req.user.id);
 })
 module.exports = router;
