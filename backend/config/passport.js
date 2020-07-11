@@ -5,6 +5,8 @@ const User = require('./../models/userModel');
 const Admin = require('./../models/adminModel');
 const GoogleStrategy= require('passport-google-oauth20');
 
+require('dotenv').config();
+
 module.exports=function (passport){
     passport.use('local-1',
         new LocalStrategy({ usernameField: 'email' }, (email, password, done)=>{
@@ -60,8 +62,9 @@ module.exports=function (passport){
         new GoogleStrategy({
             //options
             callbackURL:'/auth/google/redirect',
-            clientID: "1035247651503-u961cn7js471r8sjvoobbtph0729m7vv.apps.googleusercontent.com",
-            clientSecret:"-J-D0WCyO_zo1RxGxYwyjNpS"
+            clientID: process.env.clientID,
+            clientSecret:process.env.clientSecret
+            
         },(accessToken, refreshToken, profile, done)=>{
             
             User.findOne({ email: profile._json.email })
