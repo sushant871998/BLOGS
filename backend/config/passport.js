@@ -90,7 +90,17 @@ module.exports=function (passport){
 
     passport.deserializeUser(function(id, done){
         User.findById(id,(err,user)=>{
-            done(err, user);
+            if(user){
+                done(err, user);
+            }
+            else{
+                Admin.findById(id,(err,user)=>{
+                    done(err,user)
+                })
+            }
         });
+        // User.findById(id,(err,user)=>{
+        //     done(err, user);
+        // });
     });    
 };
