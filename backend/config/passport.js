@@ -5,7 +5,7 @@ const User = require('./../models/userModel');
 const Admin = require('./../models/adminModel');
 const GoogleStrategy= require('passport-google-oauth20');
 const FacebookStrategy= require('passport-facebook');
-
+const GitHubStrategy= require('passport-github');
 require('dotenv').config();
 
 module.exports=function (passport){
@@ -113,6 +113,16 @@ module.exports=function (passport){
                     }
                 })
         })
+    )
+    
+    //Github auth
+    passport.use(new GitHubStrategy({
+        clientID: process.env.gitClientId,
+        clientSecret: process.env.gitClientSecret,
+        callbackURL: '/auth/github/redirect'
+    },(accessToken, refreshToken, profile, done)=>{
+        console.log(profile)
+    })
     )
 
     

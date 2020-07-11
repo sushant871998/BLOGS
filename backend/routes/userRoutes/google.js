@@ -9,11 +9,22 @@ router.get('/google',passport.authenticate('google',{
 
 });
 
+
 router.get('/facebook',passport.authenticate('facebook'));
+
+router.get('/github',passport.authenticate('github'));
+
 
 router.get('/facebook/redirect',
     passport.authenticate('facebook',{
         successRedirect:"/homepage",
+        failureRedirect:'/auth/google/fail'
+    })
+);
+
+router.get('/github/redirect',
+    passport.authenticate('github',{
+        successRedirect:'/homepage',
         failureRedirect:'/auth/google/fail'
     })
 );
