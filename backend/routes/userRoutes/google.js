@@ -9,6 +9,16 @@ router.get('/google',passport.authenticate('google',{
 
 });
 
+router.get('/facebook',passport.authenticate('facebook'));
+
+router.get('/facebook/redirect',
+    passport.authenticate('facebook',{
+        successRedirect:"/homepage",
+        failureRedirect:'/auth/google/fail'
+    })
+);
+ 
+
 router.get('/google/fail',(req,res)=>{
     res.render('./../../frontend/fail/googleFail.ejs')
 });
