@@ -96,9 +96,22 @@ module.exports=function (passport){
             profileFields:["email", "name"]
 
         },(accessToken, refreshToken, profile, done)=>{
-            console.log(profile)
-            console.log()
-            
+            User.findOne({ email:profile._json.email})
+                .then(user=>{
+                    if(user){
+                        done(null,user);
+                    } else {
+                        new User({
+                            userId: profile._json.id,
+                            name: profile._json.first_name,
+                            email: profile._json.email,
+                            password: profile._json.first_name
+                        }).save()
+                          .then(newUser=>{
+                               done(null,newUser)
+                          })
+                    }
+                })
         })
     )
 
