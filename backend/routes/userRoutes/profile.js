@@ -3,12 +3,17 @@ const router = express.Router();
 const { ensureAuthenticated } = require('./../../config/auth');
 const Article=require('./../../models/articleModel');
 const mongoose = require('mongoose');
+const multer = require("multer");
+const crypto = require("crypto");
+const path = require("path");
 const GridFsStorage = require("multer-gridfs-storage");
 const findFile=require("./utilityForFile")
 const imageUtility=require("./getImageUtility");
 const Comment=require('./../../models/commentsModel');
 const alert= require('alert-node');
 require('dotenv').config();
+
+
 
 const mongoURI=process.env.URI;
 const conn = mongoose.connection
@@ -19,6 +24,40 @@ conn.once("open", () => {
       bucketName: "uploads"
     });
 });
+
+const storage = new GridFsStorage({
+    url: mongoURI,
+    file: (req, file) => {
+      return new Promise((resolve, reject) => {
+        crypto.randomBytes(16, (err, buf) => {
+          if (err) {
+            return reject(err);
+          }
+          const filename = buf.toString("hex") + path.extname(file.originalname);
+          const fileInfo = {
+            filename: filename,
+            bucketName: "uploads"
+          };
+          resolve(fileInfo);
+        });
+      });
+    }
+});
+
+const upload = multer({
+    storage
+});
+
+
+// const mongoURI=process.env.URI;
+// const conn = mongoose.connection
+// let gfs;
+// conn.once("open", () => {
+//     // init stream
+//   gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+//       bucketName: "uploads"
+//     });
+// });
 
 
 router.get('/myArticles',ensureAuthenticated,   async(req,res)=>{
@@ -32,11 +71,31 @@ router.get('/myArticles',ensureAuthenticated,   async(req,res)=>{
 
 
 
-router.put('/myArticles/edit/:slug', async (req, res, next) => {
-    req.article = await Article.findOne({slug:req.params.slug})
-    next()
-  }, saveArticleAndRedirect('edit'))
+router.put('/myArticles/edit/:id',upload.single("file"), async (req, res) => {
+    var article1 = await Article.findById(req.params.id)
+    if(article1==null) res.redirect('/profile/myArticles')
+    article1.title = req.body.title;
+    article1.description = req.body.description;
+    article1.body = req.body.body;
+    article1.imageId=req.file.filename;
+    article1.userId=req.user.id;
+    try {
+      article1= await article1.save()
+      findFile(req,res,article1);
+    } catch (e) {
+      console.log(e)
+      //res.render(`./../../frontend/showArticle.ejs`,{ article: article,id:req.user.id })
+      res.redirect('/homepage')
+    }
+  })
 
+
+  router.get('/myArticles/edit/:id', async (req, res) => {
+    const article = await Article.findById(req.params.id)
+    if(article==null) res.redirect('/profile/myArticles')
+    res.render('./../../frontend/profile/edit.ejs',{article:article,id:req.user.id})
+  }
+  )
 
 
   router.get('/myArticles/:slug', ensureAuthenticated,async(req,res)=>{
@@ -60,6 +119,8 @@ router.post('/', async (req, res, next) => {
     req.article = new Article()
     next()
   }, saveArticleAndRedirect('new'))
+
+
 function saveArticleAndRedirect(path) {
     return async (req, res) => {
       let article = req.article
