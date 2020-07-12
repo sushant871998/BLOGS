@@ -1,12 +1,12 @@
 const mongooose = require('mongoose');
 const chai = require('chai')
-const chaiHttp= require('chai-http');
+const chaiHttp = require('chai-http');
 const server = require('./../app');
 const request = require('supertest');
 //const should = chai.should;
 //const expect= require('expect');
 const should = require('should');
-let expect=chai.expect;
+let expect = chai.expect;
 chai.use(chaiHttp);
 
 describe('Welcome Page test',()=>{
@@ -201,156 +201,214 @@ describe('Admin Login POST route testing',()=>{
     });
 });
 
-// describe('Homepage testing',()=>{
-    
-//     let agent=chai.request.agent(server);
-//     agent.post('/login')
-//          .type('form')
-//          .send({
-//              email:'n@n',
-//              password:'1234'
-//          })
-//          .then(function (res){
-//              expect(res).to.have.cookie('sessionid');
-
-//              return agent.get('/homepage')
-//                 .then(function (res){
-//                     console.log(req)
-//                     expect(res).to.be.html;
-//                 })
-//          })
-
-
-
-    
-    
-// });
-
-
 
 chai.should()
-describe("GET /homepage",()=>{
-    it("It should GET all the articles",(done)=>{
+describe("GET /homepage", () => {
+    it("It should GET all the articles", (done) => {
         chai.request(server)
             .get("/homepage")
-            .end((err,response)=>{
+            .end((err, response) => {
                 response.should.have.status(200);
                 response.body.should.be.a('object');
-            done();
+                done();
             })
     })
+    it("It should not GET all the articles", (done) => {
+        chai.request(server)
+            .get("/homepage1")
+            .end((err, response) => {
+                response.should.have.status(404);
+                done();
+            })
+    })
+
 });
 
-// chai.should()
-// describe("GET /article/new",()=>{
-//     it("It should GET all the articles",(done)=>{
-//         chai.request(server)
-//             .get("GET /article/new")
-//             .end((err,response)=>{
-//                 //if((err===null).should.be.true){
-//                 response.should.have.status(200);
-//                 response.body.should.be.a('object');
-                
-//             done();
-//             })
-//     })
-// });
-
-// describe("GET /article/:slug",()=>{
-//     it("It should GET comment of ID",(done)=>{
-
-//         chai.request(server)
-//             .get("GET /article/:slug")
-//             .end((err,response)=>{
-//                 //should.exist(response);
-//                 //should(response).have.status(200);
-//                 should(response.body).be.a('object');
-//             done();
-//             })
-//     })
-// });
 chai.should()
-describe("GET /profile/myArticles",()=>{
-    it("It should GET all the articles by user",(done)=>{
+describe("GET /profile/myArticles", () => {
+    it("It should GET all the articles by user", (done) => {
         chai.request(server)
             .get("/profile/myArticles")
-            .end((err,response)=>{
+            .end((err, response) => {
                 response.should.have.status(200);
                 response.body.should.be.a('object');
-            done();
-            })
-    })
-});
-
-chai.should()
-describe("GET /profile/myArticles/:slug",()=>{
-    it("It should GET the particular article by user",(done)=>{
-        var testid="the-most-mispronounced-word-in-the-world"
-        chai.request(server)
-            .get("/profile/myArticles/"+ testid)
-            .end((err,response)=>{
-                response.should.have.status(200);
-                response.body.should.be.a('object');
-            done();
-            })
-    })
-});
-
-
-chai.should()
-describe("GET /profile/myComments/:id",()=>{
-    it("It should GET all the comments by user",(done)=>{
-        var testid="5f0a37ac7f98494700b990b0"
-        chai.request(server)
-            .get("/profile/myComments/"+ testid)
-            .end((err,response)=>{
-                response.should.have.status(200);
-                response.body.should.be.a('object');
-            done();
-            })
-    })
-});
-
-chai.should()
-describe("GET /article/:slug",()=>{
-    it("It should GET the particular article",(done)=>{
-        var testid="the-most-mispronounced-word-in-the-world"
-        chai.request(server)
-            .get("/article/"+ testid)
-            .end((err,response)=>{
-                response.should.have.status(200);
-                response.body.should.be.a('object');
-            done();
-            })
-    })
-});
-
-chai.should()
-describe("GET /article/comments/:id",()=>{
-    it("It should GET all comments on an article",(done)=>{
-        var testid="5f0a37ac7f98494700b990b0"
-        chai.request(server)
-            .get("/article/comments"+ testid)
-            .end((err,response)=>{
-                response.should.have.status(200);
-                response.body.should.be.a('object');
-    
                 done();
             })
+        it("It should not GET all the articles by user", (done) => {
+            chai.request(server)
+                .get("/homepage1")
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    done();
+                })
+        })
+        it("It should not GET all the articles by user", (done) => {
+            chai.request(server)
+                .get("/profile/myArticles")
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    done();
+                })
+        })
+
     })
 });
 
 chai.should()
-describe("GET /article/edit/:id",()=>{
-    it("It should GET edit for an article",(done)=>{
-        var testid="5f0a1f966c27ca6da897500f"
+describe("GET /profile/myArticles/:slug", () => {
+    it("It should GET the particular article by user", (done) => {
+        var testid = "the-most-mispronounced-word-in-the-world"
         chai.request(server)
-            .get("/article/edit/"+ testid)
-            .end((err,response)=>{
+            .get("/profile/myArticles/" + testid)
+            .end((err, response) => {
                 response.should.have.status(200);
                 response.body.should.be.a('object');
-    
                 done();
             })
+        it("It should not GET the particular article by user", (done) => {
+            chai.request(server)
+                .get("/homepage1")
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    done();
+                })
+        })
+        it("It should not GET the particular article by user", (done) => {
+            chai.request(server)
+                .get("/profile/myArticles/")
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    done();
+                })
+        })
     })
 });
+
+
+chai.should()
+describe("GET /profile/myComments/:id", () => {
+    it("It should GET all the comments by user", (done) => {
+        var testid = "5f0a37ac7f98494700b990b0"
+        chai.request(server)
+            .get("/profile/myComments/" + testid)
+            .end((err, response) => {
+                response.should.have.status(200);
+                response.body.should.be.a('object');
+                done();
+            })
+        it("It should not GET all the comments by user", (done) => {
+            chai.request(server)
+                .get("/homepage1")
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    done();
+                })
+        })
+
+        it("It should not GET all the comments by user", (done) => {
+            chai.request(server)
+                .get("/profile/myComments/")
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    done();
+                })
+        })
+    })
+});
+
+chai.should()
+describe("GET /article/:slug", () => {
+    it("It should GET the particular article", (done) => {
+        var testid = "the-most-mispronounced-word-in-the-world"
+        chai.request(server)
+            .get("/article/" + testid)
+            .end((err, response) => {
+                response.should.have.status(200);
+                response.body.should.be.a('object');
+                done();
+            })
+        it("It should not GET the particular article", (done) => {
+            chai.request(server)
+                .get("/homepage1")
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    done();
+                })
+        })
+
+        it("It should not GET the particular article", (done) => {
+            chai.request(server)
+                .get("/article/")
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    done();
+                })
+        })
+
+    })
+});
+
+chai.should()
+describe("GET /article/comments/:id", () => {
+    it("It should GET all comments on an article", (done) => {
+        var testid = "5f0a37ac7f98494700b990b0"
+        chai.request(server)
+            .get("/article/comments" + testid)
+            .end((err, response) => {
+                response.should.have.status(200);
+                response.body.should.be.a('object');
+
+                done();
+            })
+        it("It should not  GET all comments on an articles", (done) => {
+            chai.request(server)
+                .get("/homepage1")
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    done();
+                })
+        })
+        it("It should not  GET all comments on an articles", (done) => {
+            chai.request(server)
+                .get("/article/comments")
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    done();
+                })
+
+    })
+});
+
+chai.should()
+describe("GET /article/edit/:id", () => {
+    it("It should GET edit for an article", (done) => {
+        var testid = "5f0a1f966c27ca6da897500f"
+        chai.request(server)
+            .get("/article/edit/" + testid)
+            .end((err, response) => {
+                response.should.have.status(200);
+                response.body.should.be.a('object');
+
+                done();
+            })
+
+        it("It should not  GET edit for an article", (done) => {
+            chai.request(server)
+                .get("/homepage1")
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    done();
+                })
+        })
+        it("It should not  GET edit for an article", (done) => {
+            chai.request(server)
+                .get("/article/edit/")
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    done();
+                })
+        })
+
+        
+    })
+})});
