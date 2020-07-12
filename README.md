@@ -56,6 +56,29 @@ Different models have been used to save the data in the database
 -![Homepage](/Blogs-Images/inside-allarticles.png)
 
 
+
+**Comments**
+-![Comments](/Blogs-Images/inside-comments.png)
+
+
+**My Articles**
+-![My Articles](/Blogs-Images/inside-myarticle.png)
+
+**My Comments**
+-![My Comments](/Blogs-Images/inside-mycomments.png)
+
+
+
+**New Article**
+-![New Article](/Blogs-Images/inside-newarticle.png)
+
+
+
+**Full Article**
+-![Full Article](/Blogs-Images/inside-readmore.png)
+
+
+
 ### Contributers
 - Nishith(https://github.com/NISHITZA/)
 - Sushant (https://github.com/sushant871998/)
