@@ -10,7 +10,7 @@ This project enables the user to create their article and post it and add commen
 - `npm install`
 - Run the appliction via 
 - `npm start`
-- Go to `https://localhost:5000` to access the app
+- Go to `http://localhost:5000` to access the app
 ### Dependency
 The different packages used are
 - **bcryptjs** Used for hashing of password
@@ -49,6 +49,34 @@ Different models have been used to save the data in the database
 - **New Article** Page to add new Articles
 - **My Articles** Page to see all articles written by a user
 - **My Comments** Page to see all comments made by a user
+
+
+### Screenshots
+**Homepage**
+-![Homepage](/Blogs-Images/inside-allarticles.png)
+
+
+
+**Comments**
+-![Comments](/Blogs-Images/inside-comments.png)
+
+
+**My Articles**
+-![My Articles](/Blogs-Images/inside-myarticle.png)
+
+**My Comments**
+-![My Comments](/Blogs-Images/inside-mycomments.png)
+
+
+
+**New Article**
+-![New Article](/Blogs-Images/inside-newarticle.png)
+
+
+
+**Full Article**
+-![Full Article](/Blogs-Images/inside-readmore.png)
+
 
 
 ### Contributers
