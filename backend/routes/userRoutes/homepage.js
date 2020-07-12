@@ -10,7 +10,7 @@ router.get('/', ensureAuthenticated ,async(req,res)=>{
     //     description:'11',
     //     body:'23',
     // }]
-    const articles=await Article.find().sort({ createdAt :'desc'});
+    const articles=await Article.find().sort({ createdAt :-1});
     res.render('./../../frontend/homepage.ejs',{
         articles:articles,
         name:req.user.name,
