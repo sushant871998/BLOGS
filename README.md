@@ -10,7 +10,7 @@ This project enables the user to create their article and post it and add commen
 - `npm install`
 - Run the appliction via 
 - `npm start`
-- Go to `https://localhost:5000` to access the app
+- Go to `http://localhost:5000` to access the app
 ### Dependency
 The different packages used are
 - **bcryptjs** Used for hashing of password
