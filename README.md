@@ -59,26 +59,48 @@ Different models have been used to save the data in the database
 
 **Comments**
 -![Comments](/Blogs-Images/inside-comments.png)
-
+<br/>
+<br/>
+<br/>
 
 **My Articles**
 -![My Articles](/Blogs-Images/inside-myarticle.png)
+<br/>
+<br/>
+<br/>
 
 **My Comments**
 -![My Comments](/Blogs-Images/inside-mycomments.png)
-
+<br/>
+<br/>
+<br/>
 
 
 **New Article**
 -![New Article](/Blogs-Images/inside-newarticle.png)
-
+<br/>
+<br/>
+<br/>
 
 
 **Full Article**
 -![Full Article](/Blogs-Images/inside-readmore.png)
+<br/>
+<br/>
+<br/>
+
+**Admin**
+-![Admin](/Blogs-Images/admin.png)
+<br/>
+<br/>
+<br/>
 
 
-
+**Login**
+-![Login](/Blogs-Images/login.png)
+<br/>
+<br/>
+<br/>
 ### Contributers
 - Nishith(https://github.com/NISHITZA/)
 - Sushant (https://github.com/sushant871998/)
