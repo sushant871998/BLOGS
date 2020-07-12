@@ -8,7 +8,7 @@ router.get('/',(req,res)=>{
 
 router.get('/logout',(req,res)=>{
     req.logout();
-    res.redirect('/login');
+    res.redirect('/');
 });
 
 router.get('/fail',(req, res)=>{
