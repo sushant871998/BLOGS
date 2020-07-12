@@ -51,6 +51,11 @@ Different models have been used to save the data in the database
 - **My Comments** Page to see all comments made by a user
 
 
+### Screenshots
+**Homepage**
+-![Homepage](/Blogs-Images/inside-allarticles.png)
+
+
 ### Contributers
 - Nishith(https://github.com/NISHITZA/)
 - Sushant (https://github.com/sushant871998/)
